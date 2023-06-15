@@ -67,3 +67,42 @@ PATH=%PATH%;%SPARK_HOME%\bin;%HADOOP_HOME%\bin
 		```
 	- Open the project is `eclipse` and run the program 
 	
+
+## Spark running
+Ref: https://www.edureka.co/blog/spark-java-tutorial/
+
+1. **Open** the command prompt and start Spark in command prompt as a **master**.
+	
+	```
+	spark-class org.apache.spark.deploy.master.Master
+	```
+	
+	It runs the master at 8080 port, e.g. from the console-output, a message is like: 
+	
+	```
+	23/06/14 20:11:02 INFO MasterWebUI: Bound MasterWebUI to 0.0.0.0, and started at http://host.docker.internal:8080
+	```
+	
+	Now you can open a browser, can hit http://localhost:8080
+	
+2. **Open a new** command prompt and start Spark **again** in the command prompt and this time as a **Worker** along with the **master’s IP Address**.
+	
+	For example, The IP Address is available at `localhost:8080`. 
+	Open browser and hit http://localhost:8080, it will show spark URL. 
+	For example, in browser, the **spark url** is **Spark Master at spark://192.168.1.152:7077** 
+	
+	```
+	spark-class org.apache.spark.deploy.worker.Worker 192.168.1.152:7077
+	```
+
+	It will show message like following:
+	
+	```
+	23/06/14 20:20:58 INFO Worker: Successfully registered with master spark://192.168.1.152:7077
+	```
+
+3. **Open a new** command prompt and now you can start up the **Spark shell** along with the **master’s IP Address**.
+	It will show `scala>` in console 
+	
+4. 
+	
