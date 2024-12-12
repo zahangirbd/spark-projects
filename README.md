@@ -1,5 +1,11 @@
 # Spark Projects
+ - Apache Spark™ is a multi-language engine for executing data engineering, data science, and machine learning on single-node machines or clusters.
+ - Spark works as a stand alone server as well as in clusters. 
+ - In cluster mode, we need to start a master, then add worker nodes and then we need to submit a job/task for the master or workers
+  
 This contains some spark projects
+Ref: https://spark.apache.org/docs/latest/quick-start.html
+	 https://www.edureka.co/blog/spark-java-tutorial/
 
 ## Spark installaion
 1. Install Java from 
@@ -57,6 +63,7 @@ PATH=%PATH%;%SPARK_HOME%\bin;%HADOOP_HOME%\bin
 	```
 	
 	`Spark-shell` also creates a Spark context web UI and by default, it can access from http://localhost:4040.
+	- **Spark-shell** by default creates master node and all works are done there
 	
 5. Run an spark project
 	- Go to the project under `spark-java-projects`
@@ -65,10 +72,24 @@ PATH=%PATH%;%SPARK_HOME%\bin;%HADOOP_HOME%\bin
 		```
 		gradle eclipse
 		```
-	- Open the project is `eclipse` and run the program 
+	- Open the project is `eclipse` and run the program. This program creates master node internally and computation of the java program is done in that node.
+	- To run in stand-alone mode, you need to set the master like following code
+	```
+	SparkSession spark = SparkSession
+			.builder()
+			.appName("Simple Java Application-1")
+			.master("local[*]")
+			.getOrCreate();	
+	```
+	- To sub a task/job of computation into a running master/worker, we need the following code
+	```
+	SparkSession spark = SparkSession
+			.builder()
+			.appName("Simple Java Application-1")
+			.getOrCreate();	
+	```
 	
-
-## Spark running
+## Spark running in deployment mode
 Ref: https://www.edureka.co/blog/spark-java-tutorial/
 
 1. **Open** the command prompt and start Spark in command prompt as a **master**.
@@ -101,8 +122,30 @@ Ref: https://www.edureka.co/blog/spark-java-tutorial/
 	23/06/14 20:20:58 INFO Worker: Successfully registered with master spark://192.168.1.152:7077
 	```
 
-3. **Open a new** command prompt and now you can start up the **Spark shell** along with the **master’s IP Address**.
+3. **Open a new** command prompt and now you can start up the **spark-shell** along with the **master’s IP Address**.
+	```
+	spark-shell --master spark//192.168.1.152:7077
+	```
+	
 	It will show `scala>` in console 
 	
-4. 
+	If you browse http://localhost:8080, you will see a new console application is added over there
+	
+	
+4. **Submit a java application/task** on the above master and worker
+	- Go to the project under `spark-java-projects`
+	- In `SimpleApp.java` file, make sure NO master has been setup. The following code is working
+		```
+		SparkSession spark = SparkSession
+			.builder()
+			.appName("Simple Java Application-1")
+			.getOrCreate();
+		```
+	- Create a jar file named as 'spark-sample-app-1.jar'
+	- **Open a new** command prompt here and submit the job like following
+	```
+	spark-submit --class "org.zahangirbd.spark_sample1.SimpleApp" --master spark://192.168.1.152:7077 spark-sample-app-1.jar
+	```
+	- If you browse http://localhost:8080, you will see a new java application is added over there
+
 	
