@@ -2,6 +2,8 @@
  - Apache Spark™ is a multi-language engine for executing data engineering, data science, and machine learning on single-node machines or clusters.
  - Spark works as a stand alone server as well as in clusters. 
  - In cluster mode, we need to start a master, then add worker nodes and then we need to submit a job/task for the master or workers
+ - Spark’s primary abstraction is a distributed collection of items called a Dataset. Datasets can be created from **Hadoop** InputFormats 
+   (such as **HDFS** files) or by transforming other Datasets.
   
 This contains some spark projects
 Ref: https://spark.apache.org/docs/latest/quick-start.html
@@ -89,7 +91,7 @@ PATH=%PATH%;%SPARK_HOME%\bin;%HADOOP_HOME%\bin
 			.getOrCreate();	
 	```
 	
-## Spark running in deployment mode
+## Spark running in deployment mode - i.e., cluster mode
 Ref: https://www.edureka.co/blog/spark-java-tutorial/
 
 1. **Open** the command prompt and start Spark in command prompt as a **master**.
@@ -143,9 +145,19 @@ Ref: https://www.edureka.co/blog/spark-java-tutorial/
 		```
 	- Create a jar file named as 'spark-sample-app-1.jar'
 	- **Open a new** command prompt here and submit the job like following
-	```
-	spark-submit --class "org.zahangirbd.spark_sample1.SimpleApp" --master spark://192.168.1.152:7077 spark-sample-app-1.jar
-	```
+		```
+		spark-submit --class "org.zahangirbd.spark_sample1.SimpleApp" --master spark://192.168.1.152:7077 spark-sample-app-1.jar
+		```
 	- If you browse http://localhost:8080, you will see a new java application is added over there
 
-	
+5. **Submit a python application/task** on the above master and worker
+	- Go to the project under `spark-python-projects`
+	- In `SimpleApp.py` file, make sure NO master has been setup. The following code is working
+		```
+		spark = SparkSession.builder.appName("SimpleApp").getOrCreate()
+		```
+	- **Open a new** command prompt here and submit the job like following
+		```
+		spark-submit --master spark://172.27.160.1:7077 src/SimpleApp.py
+		```
+	- If you browse http://localhost:8080, you will see a new python application is added over there
